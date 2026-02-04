@@ -17,11 +17,7 @@ println!("{}","Strings");
      let sli =&s [0..5];
      println!("{}",sli);
 
-     //Heap allocated string
-     println!("{}","Heap allocated string");
-     let mut lang =String::from("hello");
-     lang.push_str("programming");
-     println!("{}",lang);
+   
 
 
      let mut l =String::new();
