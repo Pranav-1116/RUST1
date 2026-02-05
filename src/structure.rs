@@ -1,5 +1,5 @@
 pub fn run (){
-  //BASIC OF STRUCT  Field-by-field initialization
+ /*  //BASIC OF STRUCT  Field-by-field initialization
     struct Person {
         name : String,
         id :i32,
@@ -174,6 +174,61 @@ impl Age {
     let age = Age::new(25).unwrap();
     println!("Age: {}", age.value());
 }
+*/
+// GENERIC STRUCT SINGLE
+{
+  struct Holder<T>{
+    item:T,
+  }
+  let a=Holder{item:10};
+  let b=Holder{item:"hello"};
+  println!("{}",a.item);
+  println!("{}",b.item);
+}
+
+//GENERIC STRUCT MULTIPLE
+{
+  struct Holder<T,U>{
+    item1:T,
+    item2:U,
+  }
+  let t1=Holder{item1:1,item2:78.09};
+  let u1=Holder{ item1:"id",item2:true};
+println!("{}",t1.item1);
+println!("{}",t1.item2);
+
+println!("{}",u1.item1);
+println!("{}",u1.item2);
+
+
+  }
+
+  //ADDING THE LIFETIME IN THE GENERIC STRUCT 
+  {
+    struct Holder<'a,T>{
+      item:&'a T,
+    }
+    let x=10;
+    let t1=Holder{item:&x};
+    println!("{}",t1.item);
+    }
+  // DESTRUCTING 
+  {
+    struct User{
+      id:u32,
+      name:String,
+    }
+    //Destructure
+    let user =User{
+      id:1,
+      name:String::from("JOE"),
+    };
+    let User {id , name }
+ = user;
+
+ println!("id : {}",id);
+ println!("name : {}",name);
+  }
 
 
 }
