@@ -6,7 +6,8 @@
 //mod problemsolving;
 //mod typeoverflow;
 //mod structure1;
-mod enumeration;
+//mod enumeration;
+mod tuple;
 fn main() {
    
     //sample::run();
@@ -17,7 +18,8 @@ fn main() {
     //typeoverflow::run();
     //problemsolving::run();
     //structure1::run();
-    enumeration::run();
+    //enumeration::run();
+    tuple::run();
 
   
 
