@@ -7,7 +7,8 @@
 //mod typeoverflow;
 //mod structure1;
 //mod enumeration;
-mod tuple;
+//mod tuple;
+mod hashmap;
 fn main() {
    
     //sample::run();
@@ -19,7 +20,8 @@ fn main() {
     //problemsolving::run();
     //structure1::run();
     //enumeration::run();
-    tuple::run();
+   // tuple::run();
+   hashmap::run();
 
   
 

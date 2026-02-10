@@ -61,4 +61,184 @@ impl Point3D {
     println!("Dot product: {}", point.dot(&other));
 }
 
+
+//SMART CONTRACT TOKEN EXAMPLE 
+
+// Simulating a smart contract token structure
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct TokenAmount(u128);
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct AccountId(String);
+
+#[derive(Debug)]
+struct Balance(AccountId, TokenAmount);
+
+impl TokenAmount {
+    fn new(amount: u128) -> Self {
+        TokenAmount(amount)
+    }
+    
+    fn checked_add(&self, other: TokenAmount) -> Option<TokenAmount> {
+        self.0.checked_add(other.0).map(TokenAmount)
+    }
+    
+    fn checked_sub(&self, other: TokenAmount) -> Option<TokenAmount> {
+        self.0.checked_sub(other.0).map(TokenAmount)
+    }
+    
+  
+}
+
+impl AccountId {
+    fn new(id: &str) -> Self {
+        AccountId(id.to_string())
+    }
+    
+    fn validate(&self) -> bool {
+        !self.0.is_empty() && self.0.len() <= 64
+    }
+}
+
+impl Balance {
+    fn new(account: AccountId, amount: TokenAmount) -> Option<Self> {
+        if account.validate() {
+            Some(Balance(account, amount))
+        } else {
+            None
+        }
+    }
+    
+    fn credit(&mut self, amount: TokenAmount) -> Result<(), String> {
+        match self.1.checked_add(amount) {
+            Some(new_amount) => {
+                self.1 = new_amount;
+                Ok(())
+            }
+            None => Err("Overflow error".to_string())
+        }
+    }
+    
+    fn debit(&mut self, amount: TokenAmount) -> Result<(), String> {
+        match self.1.checked_sub(amount) {
+            Some(new_amount) => {
+                self.1 = new_amount;
+                Ok(())
+            }
+            None => Err("Insufficient balance".to_string())
+        }
+    }
+}
+
+ {
+    let account = AccountId::new("alice.near");
+    let initial_amount = TokenAmount::new(1000);
+    
+    let mut balance = Balance::new(account, initial_amount)
+        .expect("Invalid account");
+    
+    println!("Initial: {:?}", balance);
+    
+    // Credit operation
+    balance.credit(TokenAmount::new(500)).unwrap();
+    println!("After credit: {:?}", balance);
+    
+    // Debit operation
+    match balance.debit(TokenAmount::new(20)) {
+        Ok(_q) => println!("Debit successful"),
+        Err(e) => println!("Debit failed: {}", e),
+    }
+    
+    // Valid debit
+    balance.debit(TokenAmount::new(500)).unwrap();
+    println!("After debit: {:?}", balance);
+}
+
+
+//TYPE TAGGING
+
+{
+    struct TokenAmount(u64);
+    struct Age(u64);
+    
+    fn transfer(amount:TokenAmount){
+        println!("Transfering the amount : {}",amount.0);
+    }
+
+    fn age(age:Age){
+        println!("Age is :{}",age.0);
+    }
+    {
+        transfer(TokenAmount(26));
+        age(Age(26)); 
+    }
+}
+
+
+// Tuple struct with no fields (unit-like)
+
+// Single-field tuple struct
+struct Wrapper(i32);
+
+impl Wrapper {
+    fn unwrap(self) -> i32 {
+        self.0
+    }
+}
+
+// Used for type tagging
+struct Public(String);
+struct Private(String);
+
+fn publish_data(data: Public) {
+    println!("Publishing: {}", data.0);
+}
+fn publish_data1(data1:Private){
+    println!("Publishing :{}",data1.0);
+}
+ {
+    let public_msg = Public("Hello World".to_string());
+    publish_data(public_msg);
+    
+    let private_msg = Private("Secret".to_string());
+     publish_data1(private_msg); 
+    let wrapped = Wrapper(42);
+    let value = wrapped.unwrap();
+    println!("Unwrapped: {}", value);
+}
+
+//TUPLE WITHH THE GENERICS 
+
+struct Stat<T>( T);
+
+impl <T> Stat<T>{
+    fn get (&self) -> &T{
+        &self.0
+    }
+}
+
+struct Teams{
+    name:String,
+    runs:Stat<u32>,
+    wickets:Stat<u8>
+} 
+
+impl Teams{
+    fn display(&self){
+        println!("TEAMS :{} ,RUNS :{}, WICKETS : {}",self.name,self.runs.0,self.wickets.0);
+    }
+}
+
+{
+    let csk =Teams{
+        name:String::from("CSK"),
+        runs:Stat(200),
+        wickets:Stat(5),
+
+    };
+    csk.display();
+}
+
+
 }
