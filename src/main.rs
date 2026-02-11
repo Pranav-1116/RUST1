@@ -8,7 +8,8 @@
 //mod structure1;
 //mod enumeration;
 //mod tuple;
-mod hashmap;
+//mod hashmap;
+mod test;
 fn main() {
    
     //sample::run();
@@ -21,7 +22,8 @@ fn main() {
     //structure1::run();
     //enumeration::run();
    // tuple::run();
-   hashmap::run();
+   //hashmap::run();
+   test::run();
 
   
 
